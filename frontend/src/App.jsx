@@ -4,10 +4,11 @@ import MovieCard from "./components/MovieCard";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import NavBar from "./components/NavBar";
+import { MovieProvider } from "./contexts/MovieContext";
 
 function App() {
   return (
-    <div>
+    <MovieProvider>
       <NavBar />
       <div>
         <main className="main-content">
@@ -17,7 +18,7 @@ function App() {
           </Routes>
         </main>
       </div>
-    </div>
+    </MovieProvider>
   );
 }
 

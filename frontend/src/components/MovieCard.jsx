@@ -1,11 +1,16 @@
 import "../css/MovieCard.css";
+import { useMovieContext } from "../contexts/MovieContext";
 import { useState } from "react";
 
 function MovieCard({ movie }) {
+    const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+    const favorite = isFavorite(movie.id);
     const [imageError, setImageError] = useState(false);
 
-    function onFavClick() {
-        alert("clicked");
+    function onFavoriteClick(e) {
+        e.preventDefault();
+        if (favorite) removeFromFavorites(movie.id);
+        else addToFavorites(movie);
     }
 
     function handleImageError() {
@@ -15,7 +20,7 @@ function MovieCard({ movie }) {
     return (
         <div className="movie-card">
             <div className="movie-poster">
-                {imageError ? (
+                {imageError || !movie.poster_path ? (
                     <div className="movie-poster-fallback">
                         {movie.title}
                     </div>
@@ -27,8 +32,11 @@ function MovieCard({ movie }) {
                     />
                 )}
                 <div className="movie-overlay">
-                    <button className="favorite-btn" onClick={onFavClick}>
-                        🤍
+                    <button 
+                        className={`favorite-btn ${favorite ? "active" : ""}`} 
+                        onClick={onFavoriteClick}
+                    >
+                        ♥
                     </button>
                 </div>
             </div>
